@@ -15,6 +15,13 @@
       "when": 1785244866097,
       "tag": "0001_simple_iron_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785270795716,
+      "tag": "0002_spotty_mockingbird",
+      "breakpoints": true
     }
   ]
 }

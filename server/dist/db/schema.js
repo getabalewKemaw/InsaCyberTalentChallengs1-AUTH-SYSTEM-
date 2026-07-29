@@ -56,9 +56,23 @@ export const verification = pgTable("verification", {
         .$onUpdate(() => /* @__PURE__ */ new Date())
         .notNull(),
 }, (table) => [index("verification_identifier_idx").on(table.identifier)]);
+export const loginActivity = pgTable("login_activity", {
+    id: text("id").primaryKey(),
+    userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+    email: text("email").notNull(),
+    ipAddress: text("ip_address"),
+    userAgent: text("user_agent"),
+    status: text("status").notNull(), // 'SUCCESS' | 'FAILED' | 'SUSPICIOUS'
+    reason: text("reason"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => [
+    index("login_activity_userId_idx").on(table.userId),
+    index("login_activity_createdAt_idx").on(table.createdAt),
+]);
 export const userRelations = relations(user, ({ many }) => ({
     sessions: many(session),
     accounts: many(account),
+    loginActivities: many(loginActivity),
 }));
 export const sessionRelations = relations(session, ({ one }) => ({
     user: one(user, {
@@ -69,6 +83,12 @@ export const sessionRelations = relations(session, ({ one }) => ({
 export const accountRelations = relations(account, ({ one }) => ({
     user: one(user, {
         fields: [account.userId],
+        references: [user.id],
+    }),
+}));
+export const loginActivityRelations = relations(loginActivity, ({ one }) => ({
+    user: one(user, {
+        fields: [loginActivity.userId],
         references: [user.id],
     }),
 }));
