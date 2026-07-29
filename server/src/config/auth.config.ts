@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { haveIBeenPwned } from "better-auth/plugins/haveibeenpwned";
+import { jwt } from "better-auth/plugins";
 import { db } from "./db.js";
 import * as schema from "../db/schema.js";
 import { config } from "./env.js";
@@ -19,6 +20,11 @@ export const auth = betterAuth({
     haveIBeenPwned({
       customPasswordCompromisedMessage:
         "This password has been exposed in a data breach. Please choose a secure, uncompromised password.",
+    }),
+    jwt({
+      jwt: {
+        expirationTime: "15m",
+      },
     }),
   ],
   rateLimit: {
