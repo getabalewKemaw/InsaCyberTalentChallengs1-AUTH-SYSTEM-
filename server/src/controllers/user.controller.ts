@@ -7,23 +7,20 @@ import {
   revokeOtherSessions as executeRevokeOtherSessions,
 } from "../services/session.service.js";
 import { getUserLoginActivity as fetchUserLoginActivity } from "../services/login-activity.service.js";
-
 export async function getProfile(req: AuthenticatedRequest, res: Response): Promise<void> {
   res.json({
     user: req.user,
     session: req.session,
   });
 }
-
 export async function getSessions(req: AuthenticatedRequest, res: Response): Promise<void> {
   try {
     const userId = req.user!.id;
     const currentSessionId = req.session!.id;
-
     const sessions = await fetchUserSessions(userId, currentSessionId);
     res.json({ sessions });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch user sessions." });
+    res.status(500).json({ error: "failed to fetch user sessions." });
   }
 }
 
@@ -34,7 +31,6 @@ export async function revokeSession(req: AuthenticatedRequest, res: Response): P
       res.status(400).json({ error: "sessionId string parameter is required." });
       return;
     }
-
     const result = await executeRevokeSession(
       req.user!.id,
       sessionId,
@@ -45,13 +41,11 @@ export async function revokeSession(req: AuthenticatedRequest, res: Response): P
       res.status(404).json({ error: "Session not found or access denied." });
       return;
     }
-
     res.json({ success: true, message: "Session revoked successfully." });
   } catch (error) {
     res.status(500).json({ error: "Failed to revoke session." });
   }
 }
-
 export async function revokeOtherSessions(req: AuthenticatedRequest, res: Response): Promise<void> {
   try {
     await executeRevokeOtherSessions(fromNodeHeaders(req.headers));
@@ -60,7 +54,6 @@ export async function revokeOtherSessions(req: AuthenticatedRequest, res: Respon
     res.status(500).json({ error: "Failed to revoke other sessions." });
   }
 }
-
 export async function getLoginActivity(req: AuthenticatedRequest, res: Response): Promise<void> {
   try {
     const result = await fetchUserLoginActivity(req.user!.id);

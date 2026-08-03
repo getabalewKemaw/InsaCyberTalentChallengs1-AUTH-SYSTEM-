@@ -1,7 +1,6 @@
 import { eq, and, ne, desc } from "drizzle-orm";
 import { db } from "../config/db.js";
 import * as schema from "../db/schema.js";
-
 export async function findSessionsByUserId(userId: string) {
   return await db
     .select({

@@ -4,11 +4,6 @@ import {
   createLoginActivityLog,
   findLoginActivityByUserId,
 } from "../repositories/login-activity.repository.js";
-
-/**
- * Called by auth database hooks after session creation to audit login events
- * and flag suspicious activities (new IP or device/User-Agent).
- */
 export async function processSessionCreation(session: {
   id: string;
   userId: string;
@@ -18,12 +13,9 @@ export async function processSessionCreation(session: {
   try {
     const user = await findUserById(session.userId);
     if (!user) return;
-
     const prevSession = await findLatestPreviousSession(session.userId, session.id);
-
     let isSuspicious = false;
     let reason = "Standard Login";
-
     if (prevSession) {
       if (
         session.ipAddress &&
@@ -43,7 +35,6 @@ export async function processSessionCreation(session: {
     } else {
       reason = "First session created for user";
     }
-
     await createLoginActivityLog({
       userId: session.userId,
       email: user.email,
@@ -56,7 +47,6 @@ export async function processSessionCreation(session: {
     console.error("[processSessionCreation Error]:", err);
   }
 }
-
 export async function getUserLoginActivity(userId: string) {
   const activities = await findLoginActivityByUserId(userId, 20);
   const hasSuspiciousActivity = activities.some(

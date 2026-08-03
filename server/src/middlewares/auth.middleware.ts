@@ -1,12 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 import { fromNodeHeaders } from "better-auth/node";
 import { auth } from "../config/auth.config.js";
-
 export interface AuthenticatedRequest extends Request {
   user?: typeof auth.$Infer.Session.user;
   session?: typeof auth.$Infer.Session.session;
 }
-
 export async function requireAuth(
   req: AuthenticatedRequest,
   res: Response,

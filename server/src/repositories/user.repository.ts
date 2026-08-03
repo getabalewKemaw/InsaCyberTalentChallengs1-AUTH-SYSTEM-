@@ -1,7 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db.js";
 import * as schema from "../db/schema.js";
-
 export async function findUserById(id: string) {
   const [usr] = await db
     .select()

@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
 import { validatePasswordStrength } from "../validators/auth.validator.js";
-
 export function validatePasswordMiddleware(
   req: Request,
   res: Response,
@@ -11,7 +10,7 @@ export function validatePasswordMiddleware(
     const validation = validatePasswordStrength(password);
     if (!validation.valid) {
       res.status(400).json({
-        error: "Weak Password",
+        error: "Weak Password,Please make the password strong",
         message: validation.message,
       });
       return;

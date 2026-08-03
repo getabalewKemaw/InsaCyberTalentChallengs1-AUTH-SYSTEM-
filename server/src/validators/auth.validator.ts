@@ -2,15 +2,6 @@ export interface ValidationResult {
   valid: boolean;
   message?: string;
 }
-
-/**
- * Enforces strong password criteria:
- * - Length: 8 to 128 characters
- * - Require at least 1 uppercase letter
- * - Require at least 1 lowercase letter
- * - Require at least 1 number
- * - Require at least 1 special character
- */
 export function validatePasswordStrength(password?: string): ValidationResult {
   if (!password || password.length < 8) {
     return { valid: false, message: "Password must be at least 8 characters long." };

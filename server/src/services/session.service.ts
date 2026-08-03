@@ -2,8 +2,7 @@ import {
   findSessionsByUserId,
   findSessionByIdAndUserId,
 } from "../repositories/session.repository.js";
-import { auth } from "../config/auth.config.js";
-
+import {auth } from "../config/auth.config.js"
 export async function getUserSessions(userId: string, currentSessionId: string) {
   const activeSessions = await findSessionsByUserId(userId);
   return activeSessions.map((sess) => ({
