@@ -1,9 +1,8 @@
-# Dependencies
 node_modules/
 /.pnp
 .pnp.js
 
-# Environment variables
+
 .env
 .env*.local
 .env.development
@@ -11,6 +10,7 @@ node_modules/
 
 # Build outputs
 dist/
+server/dist/
 .next/
 out/
 build/

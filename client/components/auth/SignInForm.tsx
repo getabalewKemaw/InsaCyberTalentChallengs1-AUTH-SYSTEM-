@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { signIn } from "../../lib/auth-client";
 import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
-import Loader from "../ui/loader";
 export interface SignInFormProps {
   onSuccess?: () => void;
   onSwitchToSignUp?: () => void;
