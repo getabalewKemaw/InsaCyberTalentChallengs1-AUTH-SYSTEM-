@@ -124,3 +124,79 @@ export const jwks = pgTable("jwks", {
   createdAt: timestamp("created_at").notNull(),
 });
 
+export const document = pgTable("document", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  ownerId: text("owner_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  content: text("content"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .$onUpdate(() => new Date())
+    .notNull(),
+});
+
+export const permission = pgTable("permission", {
+  id: text("id").primaryKey(),
+  documentId: text("document_id").notNull().references(() => document.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  permissionLevel: text("permission_level").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const comment = pgTable("comment", {
+  id: text("id").primaryKey(),
+  documentId: text("document_id").notNull().references(() => document.id, { onDelete: "cascade" }),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  content: text("content").notNull(),
+  resolved: boolean("resolved").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .$onUpdate(() => new Date())
+    .notNull(),
+});
+
+export const revision = pgTable("revision", {
+  id: text("id").primaryKey(),
+  documentId: text("document_id").notNull().references(() => document.id, { onDelete: "cascade" }),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const documentRelations = relations(document, ({ one, many }) => ({
+  owner: one(user, {
+    fields: [document.ownerId],
+    references: [user.id],
+  }),
+  permissions: many(permission),
+  comments: many(comment),
+  revisions: many(revision),
+}));
+
+export const permissionRelations = relations(permission, ({ one }) => ({
+  document: one(document, {
+    fields: [permission.documentId],
+    references: [document.id],
+  }),
+  user: one(user, {
+    fields: [permission.userId],
+    references: [user.id],
+  }),
+}));
+
+export const commentRelations = relations(comment, ({ one }) => ({
+  document: one(document, {
+    fields: [comment.documentId],
+    references: [document.id],
+  }),
+  user: one(user, {
+    fields: [comment.userId],
+    references: [user.id],
+  }),
+}));
+
+export const revisionRelations = relations(revision, ({ one }) => ({
+  document: one(document, {
+    fields: [revision.documentId],
+    references: [document.id],
+  }),
+}));
