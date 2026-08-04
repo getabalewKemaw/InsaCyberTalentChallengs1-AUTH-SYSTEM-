@@ -14,6 +14,7 @@ import {
 } from "../controllers/comment.controller.js";
 import {
   getRevisions,
+  createManualRevision,
   restoreRevision,
 } from "../controllers/revision.controller.js";
 import { shareDocument } from "../controllers/share.controller.js";
@@ -37,6 +38,7 @@ router.delete("/comments/:commentId", authorizeDocument("commenter"), deleteComm
 
 // revisions
 router.get("/:id/revisions", authorizeDocument("viewer"), getRevisions);
+router.post("/:id/revisions", authorizeDocument("editor"), createManualRevision);
 router.post("/:id/revisions/:revId/restore", authorizeDocument("editor"), restoreRevision);
 
 // sharing & Duplication

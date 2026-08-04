@@ -40,7 +40,7 @@ export const hocuspocusServer = new Hocuspocus({
         try {
           const content = Buffer.from(state).toString("base64");
           await documentService.updateDocument(id, undefined, content);
-          await revisionService.addRevision(id, content);
+          await revisionService.addAutoSaveRevision(id, content);
           console.log(`[Hocuspocus] 💾 Saved ${state.length} bytes for document "${id}"`);
         } catch (err) {
           console.error(`[Hocuspocus] ❌ DB store error for "${id}":`, err);

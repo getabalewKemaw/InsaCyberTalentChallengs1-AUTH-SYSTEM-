@@ -129,7 +129,10 @@ export const comment = pgTable("comment", {
 export const revision = pgTable("revision", {
     id: text("id").primaryKey(),
     documentId: text("document_id").notNull().references(() => document.id, { onDelete: "cascade" }),
+    userId: text("user_id").references(() => user.id, { onDelete: "set null" }),
+    name: text("name"),
     content: text("content").notNull(),
+    isAutoSave: boolean("is_auto_save").default(true).notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 export const documentRelations = relations(document, ({ one, many }) => ({
@@ -165,6 +168,10 @@ export const revisionRelations = relations(revision, ({ one }) => ({
     document: one(document, {
         fields: [revision.documentId],
         references: [document.id],
+    }),
+    user: one(user, {
+        fields: [revision.userId],
+        references: [user.id],
     }),
 }));
 //# sourceMappingURL=schema.js.map

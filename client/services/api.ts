@@ -65,6 +65,12 @@ export const documentService = {
   getRevisions: (documentId: string): Promise<Revision[]> =>
     fetchApi<Revision[]>(`/documents/${documentId}/revisions`),
 
+  createRevision: (documentId: string, name?: string): Promise<Revision> =>
+    fetchApi<Revision>(`/documents/${documentId}/revisions`, {
+      method: "POST",
+      body: { name } as any,
+    }),
+
   restoreRevision: (documentId: string, revisionId: string): Promise<Document> =>
     fetchApi<Document>(`/documents/${documentId}/revisions/${revisionId}/restore`, {
       method: "POST",
