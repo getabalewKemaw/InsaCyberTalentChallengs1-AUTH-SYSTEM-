@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../config/db.js";
-import { comment } from "../db/schema.js";
+import { comment, user } from "../db/schema.js";
 
 export interface CreateCommentInput {
   id: string;
@@ -15,11 +15,31 @@ export interface UpdateCommentInput {
 }
 
 export const getCommentsByDocumentId = async (documentId: string) => {
-  return await db
-    .select()
+  const results = await db
+    .select({
+      id: comment.id,
+      documentId: comment.documentId,
+      userId: comment.userId,
+      content: comment.content,
+      resolved: comment.resolved,
+      createdAt: comment.createdAt,
+      updatedAt: comment.updatedAt,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      },
+    })
     .from(comment)
+    .leftJoin(user, eq(comment.userId, user.id))
     .where(eq(comment.documentId, documentId))
     .orderBy(comment.createdAt);
+
+  return results.map((row) => ({
+    ...row,
+    user: row.user?.id ? row.user : null,
+  }));
 };
 
 export const getCommentById = async (commentId: string) => {

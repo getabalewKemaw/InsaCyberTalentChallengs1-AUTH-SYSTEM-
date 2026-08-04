@@ -8,15 +8,13 @@ import { useRevisions } from "@/hooks/useRevisions";
 import { formatDateTime } from "@/utils/date.utils";
 import type { SidebarTab, UserSessionInfo } from "@/types/editor.types";
 import type { PermissionLevel } from "@/types/document.types";
-
 interface EditorSidebarProps {
   documentId: string;
   activeTab: SidebarTab;
   onClose: () => void;
   currentUser: UserSessionInfo;
   userPermission?: PermissionLevel;
-}
-
+};
 export default function EditorSidebar({
   documentId,
   activeTab,
@@ -67,7 +65,7 @@ export default function EditorSidebar({
   const loading = isCommentsActive ? commentsLoading : revisionsLoading;
 
   return (
-    <div className="w-80 bg-brand-surface border-l border-brand-border h-full flex flex-col shadow-lg z-30 transition-all">
+    <div className="w-full md:w-80 bg-brand-surface border-l border-brand-border fixed md:static right-0 top-16 bottom-0 h-[calc(100vh-4rem)] md:h-full flex flex-col shadow-2xl md:shadow-lg z-40 transition-all">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-brand-border">
         <h3 className="font-bold text-color-text-main flex items-center gap-2">
@@ -95,9 +93,14 @@ export default function EditorSidebar({
                     }`}
                 >
                   <div className="flex justify-between items-start mb-1">
-                    <span className="font-semibold text-sm text-color-text-main">
-                      User
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-sm text-color-text-main">
+                        {comment.user?.name ?? currentUser.name ?? "Unknown"}
+                      </span>
+                      {comment.user?.email && (
+                        <span className="text-[10px] text-color-text-light">{comment.user.email}</span>
+                      )}
+                    </div>
                     <span className="text-xs text-color-text-light">{formatDateTime(comment.createdAt)}</span>
                   </div>
                   <p className={`text-sm mb-3 ${comment.resolved ? "text-gray-500 line-through" : "text-color-text-main"}`}>

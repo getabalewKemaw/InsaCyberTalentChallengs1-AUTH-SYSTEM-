@@ -5,4 +5,10 @@ export interface Comment {
   content: string;
   resolved: boolean;
   createdAt: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    image?: string | null;
+  } | null;
 }

@@ -12,9 +12,7 @@ import { HocuspocusProvider } from "@hocuspocus/provider";
 import { Extension } from "@tiptap/core";
 import { yCursorPlugin } from "@tiptap/y-tiptap";
 import EditorToolbar from "./EditorToolbar";
-
 import { Eye, MessageSquare } from "lucide-react";
-
 interface CollaborativeEditorProps {
   documentId: string;
   ydoc: Y.Doc;
@@ -28,14 +26,6 @@ interface AwarenessUser {
   name: string;
   color: string;
 }
-
-/**
- * CollaborativeEditor
- *
- * Configured with Tiptap v3 + Yjs + yCursorPlugin for robust real-time document synchronization,
- * live carets, name tags, wide document paper layout, and strict read-only permission enforcement.
- */
-
 export default function CollaborativeEditor({
   ydoc,
   provider,
@@ -133,7 +123,6 @@ export default function CollaborativeEditor({
       Collaboration.configure({ document: ydoc }),
       CursorExtension,
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ydoc, provider]);
 
   const editor = useEditor({

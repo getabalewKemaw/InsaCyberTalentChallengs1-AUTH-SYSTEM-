@@ -39,18 +39,18 @@ export default function DashboardHeader({ user, searchQuery, onSearchChange }: D
           />
         </div>
 
-        <div className="flex items-center gap-3 border-l border-brand-border pl-6">
-          <span className="text-sm font-medium text-color-text-muted">{user.name}</span>
+        <div className="flex items-center gap-3 border-l border-brand-border pl-3 sm:pl-6">
+          <span className="text-sm font-medium text-color-text-muted hidden sm:inline">{user.name}</span>
           {user.image ? (
             <Image
               src={user.image}
               alt={user.name ?? "User"}
-              width={36}
-              height={36}
+              width={32}
+              height={32}
               className="rounded-full border border-brand-border"
             />
           ) : (
-            <div className="w-9 h-9 rounded-full bg-color-secondary text-white font-bold flex items-center justify-center text-sm">
+            <div className="w-8 h-8 rounded-full bg-color-secondary text-white font-bold flex items-center justify-center text-xs">
               {user.name ? user.name.charAt(0).toUpperCase() : "U"}
             </div>
           )}
@@ -60,7 +60,7 @@ export default function DashboardHeader({ user, searchQuery, onSearchChange }: D
           onClick={handleSignOut}
           variant="outline"
           size="sm"
-          className="flex items-center gap-2 text-color-text-muted hover:text-color-text-main hover:bg-gray-100"
+          className="flex items-center gap-1.5 text-color-text-muted hover:text-color-text-main hover:bg-gray-100 px-2 sm:px-3"
         >
           <LogOut size={16} />
           <span className="hidden sm:inline">Sign Out</span>

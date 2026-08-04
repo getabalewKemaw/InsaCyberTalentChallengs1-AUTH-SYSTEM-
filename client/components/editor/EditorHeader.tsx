@@ -81,7 +81,7 @@ export default function EditorHeader({
             onChange={(e) => !isReadOnly && onTitleChange(e.target.value)}
             onBlur={(e) => !isReadOnly && onTitleBlur(e.target.value)}
             onKeyDown={onTitleKeyDown}
-            className={`font-serif text-xl font-bold text-color-text-main bg-transparent border-none rounded px-2 py-1 min-w-0 w-40 sm:w-64 truncate ${
+            className={`font-serif text-lg sm:text-xl font-bold text-color-text-main bg-transparent border-none rounded px-2 py-1 min-w-0 w-28 sm:w-64 truncate ${
               isReadOnly ? "cursor-default opacity-90 focus:outline-none" : "focus:outline-none focus:ring-2 focus:ring-color-primary-hover"
             }`}
             placeholder="Untitled Document"
@@ -112,12 +112,12 @@ export default function EditorHeader({
       </div>
 
       {/* Right: controls */}
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
         {/* Export dropdown */}
         <div className="relative" ref={exportRef}>
           <button
             onClick={() => setShowExportMenu((prev) => !prev)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg text-color-text-main hover:bg-gray-100 border border-gray-200 shadow-2xs transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1.5 sm:px-3 text-sm font-medium rounded-lg text-color-text-main hover:bg-gray-100 border border-gray-200 shadow-2xs transition-colors"
           >
             <Download size={15} />
             <span className="hidden sm:inline">Export</span>
@@ -152,10 +152,11 @@ export default function EditorHeader({
 
         <button
           onClick={onShareClick}
-          className="flex items-center gap-2 px-4.5 py-1.5 text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 rounded-full shadow-sm hover:shadow transition-all border border-blue-700/20"
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4.5 text-sm font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 rounded-full shadow-sm hover:shadow transition-all border border-blue-700/20"
+          title="Share Document"
         >
           <Share2 size={16} />
-          <span>Share</span>
+          <span className="hidden sm:inline">Share</span>
         </button>
 
         {/* Live presence indicator */}
