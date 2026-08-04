@@ -4,8 +4,24 @@ import { useState, useEffect, useCallback } from "react";
 import type { HocuspocusProvider } from "@hocuspocus/provider";
 import type { AwarenessUser } from "@/types/editor.types";
 
-export function useCollaborators(provider?: HocuspocusProvider | null) {
+export function useCollaborators(
+  provider?: HocuspocusProvider | null,
+  user?: { id: string; name?: string | null } | null
+) {
   const [collaborators, setCollaborators] = useState<AwarenessUser[]>([]);
+
+  const userColor = provider?.awareness?.getLocalState()?.user?.color || "#3b82f6";
+  const userName = user?.name || "Anonymous User";
+
+  // Update awareness state
+  useEffect(() => {
+    if (provider?.awareness && user) {
+      provider.setAwarenessField("user", {
+        name: userName,
+        color: userColor,
+      });
+    }
+  }, [provider, user, userName, userColor]);
 
   const updateCollaborators = useCallback(() => {
     if (!provider?.awareness) return;
